@@ -10,13 +10,7 @@ public class TransactionService {
     private final List<Transaction> transactionList = new ArrayList<>();
 
     public TransactionService(Collection<Transaction> transaction) {
-        if (transactionList != null) {
-            this.transactionList.addAll(transaction);
-        }
-    }
-
-    public List<Transaction> getTransactionList() {
-        return new ArrayList<>(transactionList);
+        this.transactionList.addAll(transaction);
     }
 
     public List<Transaction> getTransactionByMinMaxAmount(Type type, double minAmount, double maxAmount) {
