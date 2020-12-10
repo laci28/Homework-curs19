@@ -69,23 +69,30 @@ public class TransactionService {
     }
 
     public Transaction updateTransaction(int transactionId, Transaction newTransaction) {
-        return null;
+        Transaction oldTransaction = getOrThrow(transactionId);
+        String product = oldTransaction.getProduct();
+        Type type = oldTransaction.getType();
+        double amount = oldTransaction.getAmount();
+
+        if (newTransaction.getProduct() != null) {
+            product = newTransaction.getProduct();
+        }
+        if (newTransaction.getType() != null) {
+            type = newTransaction.getType();
+        }
+        if (newTransaction.getAmount() != 0) {
+            amount = newTransaction.getAmount();
+        }
+
+        return replaceTransaction(transactionId,
+                new Transaction(oldTransaction.getId(),
+                        product,
+                        type,
+                        amount
+                ));
     }
 
     public Map<Type, List<Transaction>> mapFromTypeToAmount() {
-        /*Map<Type, Double> result = new HashMap<>();
-        double sellSum = 0;
-        double buySum = 0;
-        for (Transaction transaction : transactionList) {
-            if (transaction.getType().equals(Type.BUY)) {
-                buySum += transaction.getAmount();
-                result.put(transaction.getType(), buySum);
-            } else {
-                sellSum += transaction.getAmount();
-                result.put(transaction.getType(), sellSum);
-            }
-        }
-        return result;*/
         return transactionList.stream()
                 .collect(Collectors.groupingBy(Transaction::getType));
     }
